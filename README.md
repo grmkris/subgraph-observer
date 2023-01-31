@@ -1,4 +1,5 @@
 # Subgraph Observer 🧙‍♀️
+https://subgraph.observer
 
 Subgraph Observer is a tool for monitoring the health of your subgraph. It is a free service that connects to your subgraph and compares its latest block with the latest block on the selected network.
 - It runs entierly in your browser and does not require any installation.
@@ -24,6 +25,6 @@ pnpm run dev
 - GraphQL Code Generator (`packages/subgraph-client`)
 - Turborepo + pnpm
 
-## Deploy your own
+## Deploy your own on vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgrmkris%2Fsubgraph-observer)
