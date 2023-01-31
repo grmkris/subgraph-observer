@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
-import { FaTwitter } from "react-icons/fa";
+import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import type { ReactNode } from "react";
 
 function Footer() {
   return (
@@ -13,14 +14,26 @@ function Footer() {
 function SocialLinks() {
   return (
     <div className="flex flex-row space-x-4">
-      <a
+      <Link
         href="https://twitter.com/grmkris"
         target="_blank"
         rel="noopener noreferrer"
-        className="btn btn-ghost btn-sm"
+        className="link"
       >
-        <span>{"@grmkris "}</span> <FaTwitter size={24} color={""} />
-      </a>
+        <div>
+          <FaTwitter size={24} color={""} /><p>{"@grmkris"}</p>
+        </div>
+      </Link>
+      <Link
+        href="https://github.com/grmkris/subgraph-observer"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link"
+      >
+        <FaGithub size={24} color={""} />
+        <p>{"subgraph-observer"}</p>
+      </Link>
+
     </div>
   );
 }
@@ -37,12 +50,10 @@ export const Layout = (props: { children: ReactNode }) => {
     );
   }
   return (
-    <div className={"max-w-full"}>
-      <div className="min-h-screen">
-        <main className="px-4 py-12 sm:px-16 md:px-4 xl:px-16">
+    <div className={"h-screen flex flex-col text-center"}>
+        <main className="px-4 py-12 sm:px-16 md:px-4 xl:px-16 flex-1">
           {props.children}
         </main>
-      </div>
       <Footer />
     </div>
   );
