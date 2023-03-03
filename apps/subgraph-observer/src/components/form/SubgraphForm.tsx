@@ -5,16 +5,17 @@ import Select from "react-select";
 import { useAppStore, useTagStore } from "../../store";
 import { TextField } from "../common/TextField";
 import { useGetSubgraphStatus } from "../../hooks/useGetSubgraphStatus";
-import type { SubgraphForm } from "../../types/types";
+import type { SubgraphFormData } from "../../types/types";
 import { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
+import Button from "../common/Button";
 
 type Props = {
-  formData?: SubgraphForm;
+  formData?: SubgraphFormData;
   setModalOpen?: (setModal: boolean) => void;
 };
 
-export const CreateSubgraphForm = ({ formData, setModalOpen }: Props) => {
+export const SubgraphForm = ({ formData, setModalOpen }: Props) => {
   const { addInput, editInput } = useAppStore((state) => ({
     addInput: state.addSubgraph,
     editInput: state.updateSubgraph,
@@ -30,7 +31,7 @@ export const CreateSubgraphForm = ({ formData, setModalOpen }: Props) => {
     reset,
     watch,
     setValue,
-  } = useForm<SubgraphForm>();
+  } = useForm<SubgraphFormData>();
 
   useEffect(() => {
     if (formData) {
@@ -38,7 +39,7 @@ export const CreateSubgraphForm = ({ formData, setModalOpen }: Props) => {
     }
   }, [formData]);
 
-  const onSubmit: SubmitHandler<SubgraphForm> = (data) => {
+  const onSubmit: SubmitHandler<SubgraphFormData> = (data) => {
     !formData ? addInput(data) : editInput(data);
     setModalOpen && setModalOpen(false);
     reset();
@@ -182,7 +183,9 @@ export const CreateSubgraphForm = ({ formData, setModalOpen }: Props) => {
           )}
         />
 
-        <input type="submit" className={"btn my-6 bg-primary"} />
+        <Button type="submit" color={"primary"} className={"my-2"}>
+          Submit
+        </Button>
       </form>
     </div>
   );

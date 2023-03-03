@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { CreateSubgraphForm } from "../components/form/CreateSubgraphForm";
+import { SubgraphForm } from "../components/form/SubgraphForm";
 import { SubgraphsDashboard } from "../components/SubgraphsDashboard";
 import NonSSRWrapper from "../components/common/NonSSRWrapper";
 
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="w-full lg:w-1/3">
-            <CreateSubgraphForm />
+            <SubgraphForm />
           </div>
         </div>
         <NonSSRWrapper>

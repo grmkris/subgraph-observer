@@ -1,0 +1,1140 @@
+type Query {
+  Link(id: String!, draft: Boolean): Link
+  Links(where: Link_where, draft: Boolean, page: Int, limit: Int, sort: String): Links
+  docAccessLink(id: String!): linksDocAccess
+  User(id: String!, draft: Boolean): User
+  Users(where: User_where, draft: Boolean, page: Int, limit: Int, sort: String): Users
+  docAccessUser(id: String!): usersDocAccess
+  meUser: usersMe
+  initializedUser: Boolean
+  Customer(id: String!, draft: Boolean): Customer
+  Customers(where: Customer_where, draft: Boolean, page: Int, limit: Int, sort: String): Customers
+  docAccessCustomer(id: String!): customersDocAccess
+  Preference(key: String): Preference
+  Access: Access
+}
+
+type Link {
+  id: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: JSON
+  signature: String
+  address: String
+  customer: Customer
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type Customer {
+  id: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  role: Customer_role!
+  wallet: String
+}
+
+enum Customer_role {
+  admin
+  customer
+}
+
+type Links {
+  docs: [Link]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Link_where {
+  content: Link_content_operator
+  signature: Link_signature_operator
+  address: Link_address_operator
+  customer: Link_customer_operator
+  id: Link_id_operator
+  createdAt: Link_createdAt_operator
+  updatedAt: Link_updatedAt_operator
+  OR: [Link_where_or]
+  AND: [Link_where_and]
+}
+
+input Link_content_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Link_signature_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Link_address_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Link_customer_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Link_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Link_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Link_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Link_where_or {
+  content: Link_content_operator
+  signature: Link_signature_operator
+  address: Link_address_operator
+  customer: Link_customer_operator
+  id: Link_id_operator
+  createdAt: Link_createdAt_operator
+  updatedAt: Link_updatedAt_operator
+}
+
+input Link_where_and {
+  content: Link_content_operator
+  signature: Link_signature_operator
+  address: Link_address_operator
+  customer: Link_customer_operator
+  id: Link_id_operator
+  createdAt: Link_createdAt_operator
+  updatedAt: Link_updatedAt_operator
+}
+
+type linksDocAccess {
+  fields: LinksDocAccessFields
+  create: LinksCreateDocAccess
+  read: LinksReadDocAccess
+  update: LinksUpdateDocAccess
+  delete: LinksDeleteDocAccess
+}
+
+type LinksDocAccessFields {
+  content: LinksDocAccessFields_content
+  signature: LinksDocAccessFields_signature
+  address: LinksDocAccessFields_address
+  customer: LinksDocAccessFields_customer
+}
+
+type LinksDocAccessFields_content {
+  create: LinksDocAccessFields_content_Create
+  read: LinksDocAccessFields_content_Read
+  update: LinksDocAccessFields_content_Update
+  delete: LinksDocAccessFields_content_Delete
+}
+
+type LinksDocAccessFields_content_Create {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_content_Read {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_content_Update {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_content_Delete {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_signature {
+  create: LinksDocAccessFields_signature_Create
+  read: LinksDocAccessFields_signature_Read
+  update: LinksDocAccessFields_signature_Update
+  delete: LinksDocAccessFields_signature_Delete
+}
+
+type LinksDocAccessFields_signature_Create {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_signature_Read {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_signature_Update {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_signature_Delete {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_address {
+  create: LinksDocAccessFields_address_Create
+  read: LinksDocAccessFields_address_Read
+  update: LinksDocAccessFields_address_Update
+  delete: LinksDocAccessFields_address_Delete
+}
+
+type LinksDocAccessFields_address_Create {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_address_Read {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_address_Update {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_address_Delete {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_customer {
+  create: LinksDocAccessFields_customer_Create
+  read: LinksDocAccessFields_customer_Read
+  update: LinksDocAccessFields_customer_Update
+  delete: LinksDocAccessFields_customer_Delete
+}
+
+type LinksDocAccessFields_customer_Create {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_customer_Read {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_customer_Update {
+  permission: Boolean!
+}
+
+type LinksDocAccessFields_customer_Delete {
+  permission: Boolean!
+}
+
+type LinksCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type LinksReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LinksUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LinksDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type User {
+  id: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  role: User_role!
+  email: EmailAddress
+  resetPasswordToken: String
+  resetPasswordExpiration: DateTime
+  loginAttempts: Float
+  lockUntil: DateTime
+  password: String!
+}
+
+enum User_role {
+  admin
+  customer
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
+"""
+scalar EmailAddress @specifiedBy(url: "https://www.w3.org/Protocols/rfc822/")
+
+type Users {
+  docs: [User]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input User_where {
+  role: User_role_operator
+  email: User_email_operator
+  id: User_id_operator
+  createdAt: User_createdAt_operator
+  updatedAt: User_updatedAt_operator
+  OR: [User_where_or]
+  AND: [User_where_and]
+}
+
+input User_role_operator {
+  equals: User_role_Input
+  not_equals: User_role_Input
+  in: [User_role_Input]
+  not_in: [User_role_Input]
+  all: [User_role_Input]
+}
+
+enum User_role_Input {
+  admin
+  customer
+}
+
+input User_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+  exists: Boolean
+}
+
+input User_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input User_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_where_or {
+  role: User_role_operator
+  email: User_email_operator
+  id: User_id_operator
+  createdAt: User_createdAt_operator
+  updatedAt: User_updatedAt_operator
+}
+
+input User_where_and {
+  role: User_role_operator
+  email: User_email_operator
+  id: User_id_operator
+  createdAt: User_createdAt_operator
+  updatedAt: User_updatedAt_operator
+}
+
+type usersDocAccess {
+  fields: UsersDocAccessFields
+  create: UsersCreateDocAccess
+  read: UsersReadDocAccess
+  update: UsersUpdateDocAccess
+  delete: UsersDeleteDocAccess
+  unlock: UsersUnlockDocAccess
+}
+
+type UsersDocAccessFields {
+  role: UsersDocAccessFields_role
+  email: UsersDocAccessFields_email
+  password: UsersDocAccessFields_password
+}
+
+type UsersDocAccessFields_role {
+  create: UsersDocAccessFields_role_Create
+  read: UsersDocAccessFields_role_Read
+  update: UsersDocAccessFields_role_Update
+  delete: UsersDocAccessFields_role_Delete
+}
+
+type UsersDocAccessFields_role_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email {
+  create: UsersDocAccessFields_email_Create
+  read: UsersDocAccessFields_email_Read
+  update: UsersDocAccessFields_email_Update
+  delete: UsersDocAccessFields_email_Delete
+}
+
+type UsersDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password {
+  create: UsersDocAccessFields_password_Create
+  read: UsersDocAccessFields_password_Read
+  update: UsersDocAccessFields_password_Update
+  delete: UsersDocAccessFields_password_Delete
+}
+
+type UsersDocAccessFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type usersMe {
+  token: String
+  user: User
+  exp: Int
+  collection: String
+}
+
+type Customers {
+  docs: [Customer]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Customer_where {
+  role: Customer_role_operator
+  wallet: Customer_wallet_operator
+  id: Customer_id_operator
+  createdAt: Customer_createdAt_operator
+  updatedAt: Customer_updatedAt_operator
+  OR: [Customer_where_or]
+  AND: [Customer_where_and]
+}
+
+input Customer_role_operator {
+  equals: Customer_role_Input
+  not_equals: Customer_role_Input
+  in: [Customer_role_Input]
+  not_in: [Customer_role_Input]
+  all: [Customer_role_Input]
+}
+
+enum Customer_role_Input {
+  admin
+  customer
+}
+
+input Customer_wallet_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customer_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customer_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customer_where_or {
+  role: Customer_role_operator
+  wallet: Customer_wallet_operator
+  id: Customer_id_operator
+  createdAt: Customer_createdAt_operator
+  updatedAt: Customer_updatedAt_operator
+}
+
+input Customer_where_and {
+  role: Customer_role_operator
+  wallet: Customer_wallet_operator
+  id: Customer_id_operator
+  createdAt: Customer_createdAt_operator
+  updatedAt: Customer_updatedAt_operator
+}
+
+type customersDocAccess {
+  fields: CustomersDocAccessFields
+  create: CustomersCreateDocAccess
+  read: CustomersReadDocAccess
+  update: CustomersUpdateDocAccess
+  delete: CustomersDeleteDocAccess
+}
+
+type CustomersDocAccessFields {
+  role: CustomersDocAccessFields_role
+  wallet: CustomersDocAccessFields_wallet
+}
+
+type CustomersDocAccessFields_role {
+  create: CustomersDocAccessFields_role_Create
+  read: CustomersDocAccessFields_role_Read
+  update: CustomersDocAccessFields_role_Update
+  delete: CustomersDocAccessFields_role_Delete
+}
+
+type CustomersDocAccessFields_role_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_role_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_role_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_role_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_wallet {
+  create: CustomersDocAccessFields_wallet_Create
+  read: CustomersDocAccessFields_wallet_Read
+  update: CustomersDocAccessFields_wallet_Update
+  delete: CustomersDocAccessFields_wallet_Delete
+}
+
+type CustomersDocAccessFields_wallet_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_wallet_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_wallet_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_wallet_Delete {
+  permission: Boolean!
+}
+
+type CustomersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Preference {
+  key: String!
+  value: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Access {
+  canAccessAdmin: Boolean!
+  links: linksAccess
+  users: usersAccess
+  customers: customersAccess
+}
+
+type linksAccess {
+  fields: LinksFields
+  create: LinksCreateAccess
+  read: LinksReadAccess
+  update: LinksUpdateAccess
+  delete: LinksDeleteAccess
+}
+
+type LinksFields {
+  content: LinksFields_content
+  signature: LinksFields_signature
+  address: LinksFields_address
+  customer: LinksFields_customer
+}
+
+type LinksFields_content {
+  create: LinksFields_content_Create
+  read: LinksFields_content_Read
+  update: LinksFields_content_Update
+  delete: LinksFields_content_Delete
+}
+
+type LinksFields_content_Create {
+  permission: Boolean!
+}
+
+type LinksFields_content_Read {
+  permission: Boolean!
+}
+
+type LinksFields_content_Update {
+  permission: Boolean!
+}
+
+type LinksFields_content_Delete {
+  permission: Boolean!
+}
+
+type LinksFields_signature {
+  create: LinksFields_signature_Create
+  read: LinksFields_signature_Read
+  update: LinksFields_signature_Update
+  delete: LinksFields_signature_Delete
+}
+
+type LinksFields_signature_Create {
+  permission: Boolean!
+}
+
+type LinksFields_signature_Read {
+  permission: Boolean!
+}
+
+type LinksFields_signature_Update {
+  permission: Boolean!
+}
+
+type LinksFields_signature_Delete {
+  permission: Boolean!
+}
+
+type LinksFields_address {
+  create: LinksFields_address_Create
+  read: LinksFields_address_Read
+  update: LinksFields_address_Update
+  delete: LinksFields_address_Delete
+}
+
+type LinksFields_address_Create {
+  permission: Boolean!
+}
+
+type LinksFields_address_Read {
+  permission: Boolean!
+}
+
+type LinksFields_address_Update {
+  permission: Boolean!
+}
+
+type LinksFields_address_Delete {
+  permission: Boolean!
+}
+
+type LinksFields_customer {
+  create: LinksFields_customer_Create
+  read: LinksFields_customer_Read
+  update: LinksFields_customer_Update
+  delete: LinksFields_customer_Delete
+}
+
+type LinksFields_customer_Create {
+  permission: Boolean!
+}
+
+type LinksFields_customer_Read {
+  permission: Boolean!
+}
+
+type LinksFields_customer_Update {
+  permission: Boolean!
+}
+
+type LinksFields_customer_Delete {
+  permission: Boolean!
+}
+
+type LinksCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LinksReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LinksUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LinksDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type usersAccess {
+  fields: UsersFields
+  create: UsersCreateAccess
+  read: UsersReadAccess
+  update: UsersUpdateAccess
+  delete: UsersDeleteAccess
+  unlock: UsersUnlockAccess
+}
+
+type UsersFields {
+  role: UsersFields_role
+  email: UsersFields_email
+  password: UsersFields_password
+}
+
+type UsersFields_role {
+  create: UsersFields_role_Create
+  read: UsersFields_role_Read
+  update: UsersFields_role_Update
+  delete: UsersFields_role_Delete
+}
+
+type UsersFields_role_Create {
+  permission: Boolean!
+}
+
+type UsersFields_role_Read {
+  permission: Boolean!
+}
+
+type UsersFields_role_Update {
+  permission: Boolean!
+}
+
+type UsersFields_role_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_email {
+  create: UsersFields_email_Create
+  read: UsersFields_email_Read
+  update: UsersFields_email_Update
+  delete: UsersFields_email_Delete
+}
+
+type UsersFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_password {
+  create: UsersFields_password_Create
+  read: UsersFields_password_Read
+  update: UsersFields_password_Update
+  delete: UsersFields_password_Delete
+}
+
+type UsersFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type customersAccess {
+  fields: CustomersFields
+  create: CustomersCreateAccess
+  read: CustomersReadAccess
+  update: CustomersUpdateAccess
+  delete: CustomersDeleteAccess
+}
+
+type CustomersFields {
+  role: CustomersFields_role
+  wallet: CustomersFields_wallet
+}
+
+type CustomersFields_role {
+  create: CustomersFields_role_Create
+  read: CustomersFields_role_Read
+  update: CustomersFields_role_Update
+  delete: CustomersFields_role_Delete
+}
+
+type CustomersFields_role_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_role_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_role_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_role_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_wallet {
+  create: CustomersFields_wallet_Create
+  read: CustomersFields_wallet_Read
+  update: CustomersFields_wallet_Update
+  delete: CustomersFields_wallet_Delete
+}
+
+type CustomersFields_wallet_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_wallet_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_wallet_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_wallet_Delete {
+  permission: Boolean!
+}
+
+type CustomersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Mutation {
+  createLink(data: mutationLinkInput!, draft: Boolean): Link
+  updateLink(id: String!, data: mutationLinkUpdateInput!, draft: Boolean, autosave: Boolean): Link
+  deleteLink(id: String!): Link
+  createUser(data: mutationUserInput!, draft: Boolean): User
+  updateUser(id: String!, data: mutationUserUpdateInput!, draft: Boolean, autosave: Boolean): User
+  deleteUser(id: String!): User
+  refreshTokenUser(token: String): usersRefreshedUser
+  logoutUser: String
+  unlockUser(email: String!): Boolean!
+  loginUser(email: String, password: String): usersLoginResult
+  forgotPasswordUser(email: String!, disableEmail: Boolean, expiration: Int): Boolean!
+  resetPasswordUser(token: String, password: String): usersResetPassword
+  verifyEmailUser(token: String): Boolean
+  createCustomer(data: mutationCustomerInput!, draft: Boolean): Customer
+  updateCustomer(id: String!, data: mutationCustomerUpdateInput!, draft: Boolean, autosave: Boolean): Customer
+  deleteCustomer(id: String!): Customer
+  updatePreference(key: String!, value: JSON): Preference
+  deletePreference(key: String!): Preference
+}
+
+input mutationLinkInput {
+  content: JSON
+  signature: String
+  address: String
+  customer: String
+}
+
+input mutationLinkUpdateInput {
+  content: JSON
+  signature: String
+  address: String
+  customer: String
+}
+
+input mutationUserInput {
+  role: User_role_MutationInput!
+  email: String
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String!
+}
+
+enum User_role_MutationInput {
+  admin
+  customer
+}
+
+input mutationUserUpdateInput {
+  role: UserUpdate_role_MutationInput
+  email: String
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String
+}
+
+enum UserUpdate_role_MutationInput {
+  admin
+  customer
+}
+
+type usersRefreshedUser {
+  user: usersJWT
+  refreshedToken: String
+  exp: Int
+}
+
+type usersJWT {
+  email: EmailAddress!
+  collection: String!
+}
+
+type usersLoginResult {
+  token: String
+  user: User
+  exp: Int
+}
+
+type usersResetPassword {
+  token: String
+  user: User
+}
+
+input mutationCustomerInput {
+  role: Customer_role_MutationInput!
+  wallet: String
+}
+
+enum Customer_role_MutationInput {
+  admin
+  customer
+}
+
+input mutationCustomerUpdateInput {
+  role: CustomerUpdate_role_MutationInput
+  wallet: String
+}
+
+enum CustomerUpdate_role_MutationInput {
+  admin
+  customer
+}

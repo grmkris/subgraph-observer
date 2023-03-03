@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDataForChain } from "../utils/functions";
 import { useGetChainData } from "./useGetChainData";
+import { BigNumber } from "ethers";
 
 export const useGetNodeLatestBlock = (chainId: number | undefined) => {
   const chainList = useGetChainData();
   const chainData = chainList.data && getDataForChain(chainList.data, chainId!);
   const rpcs = chainData?.rpc;
 
-  return useQuery<number>(
+  return useQuery(
     ["useGetNodeLatestBlock", chainId],
     async () => {
       if (!rpcs || rpcs.length === 0) {
@@ -28,7 +29,8 @@ export const useGetNodeLatestBlock = (chainId: number | undefined) => {
             }),
           });
           const json = await result.json();
-          return json.result;
+          const blockNumber = BigNumber.from(json.result).toNumber();
+          return blockNumber;
         } catch (e) {
           console.warn(`Request to ${rpc} failed, trying new one`);
         }

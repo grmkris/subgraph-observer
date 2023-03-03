@@ -3,7 +3,7 @@ import type { StateStorage } from "zustand/middleware";
 import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { del, get, set } from "idb-keyval";
-import type { SubgraphForm } from "./types/types";
+import type { SubgraphFormData } from "./types/types";
 
 // Custom storage object
 const storage: StateStorage = {
@@ -22,11 +22,11 @@ const storage: StateStorage = {
 };
 
 export type IGraphNotifyStoreStore = {
-  subgraphs: SubgraphForm[];
-  addSubgraph: (input: SubgraphForm) => void;
+  subgraphs: SubgraphFormData[];
+  addSubgraph: (input: SubgraphFormData) => void;
   removeSubgraph: (index: number) => void;
-  updateSubgraphs: (inputs: SubgraphForm[]) => void;
-  updateSubgraph: (editInput: SubgraphForm) => void;
+  updateSubgraphs: (inputs: SubgraphFormData[]) => void;
+  updateSubgraph: (editInput: SubgraphFormData) => void;
 };
 
 export const useAppStore = create<IGraphNotifyStoreStore>()(
