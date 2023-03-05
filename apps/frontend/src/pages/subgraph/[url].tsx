@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useGetSubgraphStatus } from "../../hooks/useGetSubgraphStatus";
 import { createGraphiQLFetcher } from "@graphiql/toolkit";
 import { GraphiQL } from "graphiql";
 import "graphiql/graphiql.css";
@@ -10,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { base64Decode } from "../../utils/functions";
 import Head from "next/head";
+import { useGetSubgraphStatus } from "../../hooks/subgraph-status/useGetSubgraphStatus";
 
 const SubgraphExplorer = () => {
   const { url } = useRouter().query;

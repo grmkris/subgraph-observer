@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { ChainListSchema } from "../types/types";
+import type { ChainListSchema } from "../../types/types";
 
 export const useGetChainData = () => {
-  return  useQuery<ChainListSchema[]>(
+  return useQuery<ChainListSchema[]>(
     ["useChainListChains"],
     async () => {
       const data = await fetch("https://chainid.network/chains.json");

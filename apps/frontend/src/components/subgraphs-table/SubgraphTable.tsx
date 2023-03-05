@@ -1,5 +1,5 @@
+import type { GroupingState, SortingState } from "@tanstack/react-table";
 import {
-  GroupingState,
   useReactTable,
   getFilteredRowModel,
   getCoreRowModel,
@@ -7,7 +7,6 @@ import {
   getExpandedRowModel,
   flexRender,
   createColumnHelper,
-  SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
@@ -19,124 +18,20 @@ import {
 } from "react-icons/hi";
 import { GrGroup, GrFormClose } from "react-icons/gr";
 import { SubgraphStatusLabel } from "./SubgraphStatusLabel";
-import { useGetChainData } from "../../hooks/useGetChainData";
 import RemoveButton from "./RemoveButton";
 import { base64Encode, getDataForChain } from "../../utils/functions";
 import Link from "next/link";
 import { copyToClipboard } from "../SubgraphsDashboard";
-import EditButton from "./EditButton";
-import Modal from "../Modal";
-import { SubgraphForm } from "../../types/types";
+import Button from "../common/Button";
+import { useGetChainData } from "../../hooks/subgraph-status/useGetChainData";
 
-type GraphRow = {
-  name: string;
-  indexer: string;
-  chainId: number;
-  status?: string;
-  playground?: string;
-  manage?: string;
-  tag: string;
-  subRows?: GraphRow[];
-};
-type Props = {
-  inputs: GraphRow[];
-};
-
-export function SubgraphTable({ inputs: tableData }: Props) {
-  const columnHelper = createColumnHelper<GraphRow>();
-  const columns = [
-    columnHelper.accessor("name", {
-      header: () => <span>Title</span>,
-      cell: (info) => (
-        <span className="text-lg capitalize">{info.getValue()}</span>
-      ),
-      enableSorting: true,
-      enableGrouping: false,
-    }),
-    columnHelper.accessor("tag", {
-      header: () => <span>Tag</span>,
-      cell: (info) => (
-        <span className="text-lg capitalize">{info.getValue()}</span>
-      ),
-      enableSorting: true,
-      enableGrouping: true,
-    }),
-    columnHelper.accessor("chainId", {
-      header: () => <span>Chain</span>,
-      cell: (info) => <ChainIdToLink chainId={info.getValue()} />,
-      enableSorting: true,
-      enableGrouping: false,
-    }),
-    columnHelper.accessor("indexer", {
-      header: () => <span>GraphQL</span>,
-      cell: (cell) => (
-        <div className={"flex items-center"}>
-          <a href={cell.getValue()} target="_blank" rel="noopener noreferrer">
-            <button className="text_link">
-              <HiExternalLink />
-              <div>GraphQL</div>
-            </button>
-          </a>
-        </div>
-      ),
-      enableGrouping: false,
-    }),
-    columnHelper.accessor("playground", {
-      header: () => "Playground",
-      cell: (cell) => (
-        <Link
-          href={`/subgraph/${base64Encode(cell.row.getValue("indexer"))}`}
-          className="btn-outline btn-secondary btn-sm btn"
-        >
-          <div>Playground</div>
-        </Link>
-      ),
-      enableGrouping: false,
-    }),
-    columnHelper.accessor("status", {
-      header: () => "Status",
-      cell: (info) => (
-        <SubgraphStatusLabel
-          chainId={info.row.getValue("chainId")}
-          indexer={info.row.getValue("indexer")}
-        />
-      ),
-      enableGrouping: false,
-    }),
-    columnHelper.accessor("manage", {
-      header: () => "",
-      cell: (info) => (
-        <div className={"flex flex-row space-x-2"}>
-          <button
-            className="text_link btn-primary btn-ghost btn-sm btn font-bold"
-            onClick={async () => {
-              await copyToClipboard(info.row.getValue("indexer"));
-            }}
-          >
-            <HiOutlineClipboard />
-            <div>Copy URL</div>
-          </button>
-
-          <EditButton
-            rowId={info.row.index}
-            setOpenModal={setOpenModal}
-            setModalData={setModalData}
-          />
-          <RemoveButton rowId={info.row.index} />
-        </div>
-      ),
-      enableGrouping: false,
-    }),
-  ];
-
+export function SubgraphTable(props: { inputs: GraphRow[] }) {
+  const { inputs } = props;
   const [grouping, setGrouping] = useState<GroupingState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalData, setModalData] = useState<SubgraphForm>();
-
   const table = useReactTable({
-    data: tableData,
-    columns,
+    data: inputs,
+    columns: generateColumns(),
     state: {
       sorting,
       grouping,
@@ -259,8 +154,6 @@ export function SubgraphTable({ inputs: tableData }: Props) {
           })}
         </tbody>
       </table>
-
-      <Modal formData={modalData!} open={openModal} setOpen={setOpenModal} />
     </div>
   );
 }
@@ -282,4 +175,96 @@ export const ChainIdToLink = (props: { chainId: number }) => {
       </button>
     </a>
   );
+};
+
+type GraphRow = {
+  name: string;
+  indexer: string;
+  chainId: number;
+  status?: string;
+  playground?: string;
+  manage?: string;
+  tag: string;
+  subRows?: GraphRow[];
+};
+
+const generateColumns = () => {
+  const columnHelper = createColumnHelper<GraphRow>();
+  return [
+    columnHelper.accessor("name", {
+      header: () => <span>Title</span>,
+      cell: (info) => (
+        <span className="text-lg capitalize">{info.getValue()}</span>
+      ),
+      enableSorting: true,
+      enableGrouping: false,
+    }),
+    columnHelper.accessor("tag", {
+      header: () => <span>Tag</span>,
+      cell: (info) => (
+        <span className="text-lg capitalize">{info.getValue()}</span>
+      ),
+      enableSorting: true,
+      enableGrouping: true,
+    }),
+    columnHelper.accessor("chainId", {
+      header: () => <span>Chain</span>,
+      cell: (info) => <ChainIdToLink chainId={info.getValue()} />,
+      enableSorting: true,
+      enableGrouping: false,
+    }),
+    columnHelper.accessor("indexer", {
+      header: () => <span>GraphQL</span>,
+      cell: (cell) => (
+        <div className={"flex items-center"}>
+          <a href={cell.getValue()} target="_blank" rel="noopener noreferrer">
+            <button className="text_link">
+              <HiExternalLink />
+              <div>GraphQL</div>
+            </button>
+          </a>
+        </div>
+      ),
+      enableGrouping: false,
+    }),
+    columnHelper.accessor("playground", {
+      header: () => "Playground",
+      cell: (cell) => (
+        <Link href={`/subgraph/${base64Encode(cell.row.getValue("indexer"))}`}>
+          <Button size={"sm"} color={"secondary"} outline={true}>
+            PLAYGROUND
+          </Button>
+        </Link>
+      ),
+      enableGrouping: false,
+    }),
+    columnHelper.accessor("status", {
+      header: () => "Status",
+      cell: (info) => (
+        <SubgraphStatusLabel
+          chainId={info.row.getValue("chainId")}
+          indexer={info.row.getValue("indexer")}
+        />
+      ),
+      enableGrouping: false,
+    }),
+    columnHelper.accessor("manage", {
+      header: () => "",
+      cell: (info) => (
+        <div className={"flex flex-row space-x-2"}>
+          <button
+            className="text_link btn-primary btn-ghost btn-sm btn font-bold"
+            onClick={async () => {
+              await copyToClipboard(info.row.getValue("indexer"));
+            }}
+          >
+            <HiOutlineClipboard />
+            <div>Copy URL</div>
+          </button>
+          <RemoveButton rowId={info.row.index} />
+        </div>
+      ),
+      enableGrouping: false,
+    }),
+  ];
 };

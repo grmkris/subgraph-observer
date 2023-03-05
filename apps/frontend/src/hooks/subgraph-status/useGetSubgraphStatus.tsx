@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useSubgraphClient } from "./useSubgraphClient";
+import { useSubgraphClient } from "../clients/useSubgraphClient";
 
 export const useGetSubgraphStatus = (indexer?: URL) => {
   const [refetchInterval, setRefetchInterval] = useState(1000);
