@@ -1,22 +1,24 @@
-import { buildConfig } from 'payload/config';
-import path from 'path';
-// import Examples from './collections/Examples';
-import Users from './collections/Users';
+import { buildConfig } from "payload/config";
+import path from "path";
+import Users from "./collections/Users";
+import Links from "./collections/Links";
+import { Customers } from "./collections/Customers";
 
 export default buildConfig({
-  serverURL: 'http://localhost:3000',
+  serverURL: "http://localhost:3000",
+  debug: true,
+  cors: "*",
+  csrf: ["*"],
   admin: {
     user: Users.slug,
   },
-  collections: [
-    Users,
-    // Add Collections here
-    // Examples,
-  ],
+  collections: [Links, Users, Customers],
   typescript: {
-    outputFile: path.resolve(__dirname, 'payload-types.ts'),
+    outputFile: path.resolve(__dirname + "/generated", "payload-types.ts"),
   },
   graphQL: {
-    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
+    schemaOutputFile: path.resolve(__dirname + "/generated", "generated-schema.graphql"),
   },
+  plugins: [],
+  endpoints: [],
 });
