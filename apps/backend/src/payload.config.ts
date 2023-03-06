@@ -5,7 +5,7 @@ import Links from "./collections/Links";
 import { Customers } from "./collections/Customers";
 
 export default buildConfig({
-  serverURL: "http://localhost:3000",
+  serverURL: process.env.PAYLOAD_SERVER_URL || "http://localhost:3000",
   debug: true,
   cors: "*",
   csrf: ["*"],
