@@ -3,6 +3,7 @@ import path from "path";
 import Users from "./collections/Users";
 import Links from "./collections/Links";
 import { Customers } from "./collections/Customers";
+require('dotenv').config();
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_SERVER_URL || "http://localhost:3000",
