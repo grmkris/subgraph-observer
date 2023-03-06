@@ -6,7 +6,7 @@ import { Customers } from "./collections/Customers";
 require('dotenv').config();
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_SERVER_URL || "http://localhost:3000",
+  serverURL: "https://subgraph-observer-production.up.railway.app",
   debug: true,
   cors: "*",
   csrf: ["*"],
