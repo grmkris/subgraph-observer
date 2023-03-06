@@ -13,7 +13,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "hello": "turbo run hello",
-    "start-payload": "turbo run start-payload"
+    "start-payload": "turbo run start-payload",
+    "build-payload": "pnpm run build --filter backend"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
