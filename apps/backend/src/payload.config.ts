@@ -9,6 +9,9 @@ export default buildConfig({
   serverURL: "https://subgraph-observer-production.up.railway.app",
   debug: true,
   cors: "*",
+  rateLimit: {
+    trustProxy: true,
+  },
   csrf: ["*"],
   admin: {
     user: Users.slug,
