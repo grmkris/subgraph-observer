@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ERC721SO is ERC721, Ownable {
-    uint256 public _tokenIdCounter;
+    uint256 public totalSupply;
     uint256 public _mintPrice;
     string public _host;
 
@@ -19,8 +19,8 @@ contract ERC721SO is ERC721, Ownable {
     }
 
     function mint() public payable returns (uint256) {
-        uint256 tokenId = _tokenIdCounter;
-        _tokenIdCounter++;
+        uint256 tokenId = totalSupply;
+        totalSupply++;
 
         if (msg.sender != owner()) {
             require(msg.value >= _mintPrice, "Minting requires payment");

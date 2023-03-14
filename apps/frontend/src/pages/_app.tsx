@@ -11,13 +11,21 @@ import { Analytics } from "@vercel/analytics/react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
-import { Modals } from "../modals/Modals";
+import { polygonMumbai } from "wagmi/chains";
+import { infuraProvider } from "wagmi/providers/infura";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum],
-  [publicProvider()]
+  [polygonMumbai],
+  [
+    jsonRpcProvider({
+      rpc: (chainId) => {
+        return {
+          http: "https://rpc.ankr.com/polygon_mumbai/042d0fc1c6eacbb798bb9745ba09695ba5cc84c70e5c8a145bd66c78217138c6",
+        };
+      },
+    }),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
@@ -25,14 +33,15 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 
+// Create a query client
+const queryClient = new QueryClient();
+
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
+  queryClient,
 });
-
-// Create a query client
-const queryClient = new QueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

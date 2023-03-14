@@ -1,9 +1,10 @@
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useSigner, useSignMessage } from "wagmi";
 import { ethers } from "ethers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SubgraphFormSchema } from "../types/types";
 import { z } from "zod";
 import { apiClient } from "./clients/useBackendClient";
+import toast from "react-hot-toast";
 
 export const useLinks = () => {
   const { address } = useAccount();
@@ -31,31 +32,38 @@ export const useLinkData = (props: { id: string }) => {
   });
 };
 
-export const useCreateNewLink = () => {
+export const useShareDashboard = (props: { content: string }) => {
   const { address } = useAccount();
-  const { data: signer } = useSigner();
-
-  const createNewLink = useMutation({
-    mutationFn: async (data: { content: string }) => {
-      if (!signer || !address) {
-        console.error({ signer, address });
-        throw new Error("No backend client or signer");
-      }
-      const hash = ethers.utils.keccak256(Buffer.from(data.content));
-      const signature = await signer.signMessage(hash);
-      // recover signer
-      const recoveredAddress = ethers.utils.verifyMessage(hash, signature);
-      if (recoveredAddress !== address) {
-        throw new Error("Recovered address does not match");
-      }
-      if (!signature) throw new Error("No signature");
-      return apiClient.createLink({
-        address,
-        content: data.content,
-        signature,
-      });
+  const message = ethers.utils.keccak256(Buffer.from(props.content));
+  const signData = useSignMessage({
+    message,
+    onError: (error) => {
+      console.error(error);
+      toast.error(`Error creating link: ${error.message}`);
     },
   });
 
-  return createNewLink;
+  const createLink = useMutation({
+    mutationFn: async () => {
+      const signature = await signData.signMessageAsync();
+      const recoveredAddress = ethers.utils.verifyMessage(message, signature);
+      if (recoveredAddress !== address) {
+        throw new Error("Recovered address does not match");
+      }
+      return apiClient.createLink({
+        address,
+        content: props.content,
+        signature: signature,
+      });
+    },
+    onSuccess: (data) => {
+      navigator.clipboard
+        .writeText(`${window.location.href}dashboard/${data.createLink?.id}`)
+        .then(() => {
+          toast.success(`URL copied to clipboard 👏`);
+        });
+    },
+  });
+
+  return createLink;
 };

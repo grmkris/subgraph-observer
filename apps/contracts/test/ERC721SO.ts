@@ -1,8 +1,8 @@
 import { ethers } from "hardhat";
-import { ERC721SO } from "../typechain-types";
 import { BigNumber } from "ethers";
 
 import { expect } from "chai";
+import { ERC721SO } from "contract-types";
 
 describe("ERC721SO", function () {
   let nft: ERC721SO;
@@ -47,7 +47,7 @@ describe("ERC721SO", function () {
     const newBalance = await balanceOf(to);
     expect(newBalance).to.equal(initialBalance.add(1));
 
-    const tokenId = await nft._tokenIdCounter();
+    const tokenId = await nft.totalSupply();
     return tokenId.sub(1);
   }
 

@@ -46,6 +46,10 @@ const config: HardhatUserConfig = {
     deployer: 0,
     simpleERC20Beneficiary: 1,
   },
+  typechain: {
+    outDir: "../../packages/lib/contract-types/src/generated",
+    target: "ethers-v5",
+  },
 };
 
 export default config;

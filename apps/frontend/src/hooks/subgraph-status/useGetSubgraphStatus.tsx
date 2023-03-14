@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSubgraphClient } from "../clients/useSubgraphClient";
 
 export const useGetSubgraphStatus = (indexer?: URL) => {
-  const [refetchInterval, setRefetchInterval] = useState(1000);
+  const [refetchInterval, setRefetchInterval] = useState(5000);
   const subgraphClient = useSubgraphClient(indexer);
   return useQuery(
     ["useGetSubgraphStatus", { indexer }],
@@ -16,11 +16,7 @@ export const useGetSubgraphStatus = (indexer?: URL) => {
     {
       enabled: !!subgraphClient.data && !!indexer,
       refetchInterval: refetchInterval,
-      retry: false,
-      onError: (error) => {
-        console.log(error);
-        setRefetchInterval(10000);
-      },
+      retryDelay: 10000,
     }
   );
 };

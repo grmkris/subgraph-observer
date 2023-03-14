@@ -40,7 +40,8 @@ export const useGetNodeLatestBlock = (chainId?: number) => {
     },
     {
       enabled: !!chainId && !!rpcs,
-      refetchInterval: 1000,
+      refetchInterval: 5000,
+      retryDelay: 10000,
     }
   );
 };

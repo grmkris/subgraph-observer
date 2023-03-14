@@ -13,9 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "contract-types": "workspace:*",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13",
     "@types/debug": "^4.1.7",
+    "@wagmi/cli": "^0.1.11",
     "ethers": "^5.7.2",
     "hardhat": "^2.13.0",
     "hardhat-deploy": "^0.11.24"
