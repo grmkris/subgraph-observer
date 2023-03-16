@@ -1,5 +1,7 @@
 import { defineConfig } from "@wagmi/cli";
 import { hardhat, react } from "@wagmi/cli/plugins";
+import { NFT_CONTRACT_ADDRESS } from "contract-types/src";
+import type { Address } from "wagmi";
 
 export default defineConfig({
   out: "src/wagmiHooks.ts",
@@ -13,7 +15,7 @@ export default defineConfig({
       ],
       deployments: {
         ERC721SO: {
-          80001: "0x2a617CD48f1858F5F0231bB8d906928879857174",
+          80001: NFT_CONTRACT_ADDRESS.polygon_mumbai.nft as Address,
         },
       },
     }),

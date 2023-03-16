@@ -6,7 +6,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
   const { deploy } = deployments;
 
-  const { deployer, simpleERC20Beneficiary } = await getNamedAccounts();
+  const { deployer } = await getNamedAccounts();
 
   // cost to mint is 10 matic tokens
   await deploy("ERC721SO", {
@@ -14,7 +14,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [
       "SubgraphObserver",
       "SO",
-      ethers.utils.parseEther("10"),
+      ethers.utils.parseEther("1"),
       "http//localhost:3000/",
     ],
     log: true,

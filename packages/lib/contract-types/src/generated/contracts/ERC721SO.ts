@@ -35,6 +35,7 @@ export interface ERC721SOInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getBaseURI()": FunctionFragment;
     "getMintPrice()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint()": FunctionFragment;
@@ -45,6 +46,7 @@ export interface ERC721SOInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBaseURI(string)": FunctionFragment;
     "setMintPrice(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -62,6 +64,7 @@ export interface ERC721SOInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "getApproved"
+      | "getBaseURI"
       | "getMintPrice"
       | "isApprovedForAll"
       | "mint"
@@ -72,6 +75,7 @@ export interface ERC721SOInterface extends utils.Interface {
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setBaseURI"
       | "setMintPrice"
       | "supportsInterface"
       | "symbol"
@@ -98,6 +102,10 @@ export interface ERC721SOInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getBaseURI",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getMintPrice",
@@ -140,6 +148,10 @@ export interface ERC721SOInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setBaseURI",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setMintPrice",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -178,6 +190,7 @@ export interface ERC721SOInterface extends utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getMintPrice",
     data: BytesLike
@@ -206,6 +219,7 @@ export interface ERC721SOInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setMintPrice",
     data: BytesLike
@@ -338,6 +352,8 @@ export interface ERC721SO extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getBaseURI(overrides?: CallOverrides): Promise<[string]>;
+
     getMintPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     isApprovedForAll(
@@ -381,6 +397,11 @@ export interface ERC721SO extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setBaseURI(
+      baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -440,6 +461,8 @@ export interface ERC721SO extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getBaseURI(overrides?: CallOverrides): Promise<string>;
+
   getMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   isApprovedForAll(
@@ -483,6 +506,11 @@ export interface ERC721SO extends BaseContract {
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setBaseURI(
+    baseURI: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -542,6 +570,8 @@ export interface ERC721SO extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    getBaseURI(overrides?: CallOverrides): Promise<string>;
+
     getMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
@@ -581,6 +611,11 @@ export interface ERC721SO extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBaseURI(
+      baseURI: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -683,6 +718,8 @@ export interface ERC721SO extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getBaseURI(overrides?: CallOverrides): Promise<BigNumber>;
+
     getMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
@@ -726,6 +763,11 @@ export interface ERC721SO extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setBaseURI(
+      baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -786,6 +828,8 @@ export interface ERC721SO extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getBaseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getMintPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
@@ -829,6 +873,11 @@ export interface ERC721SO extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseURI(
+      baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

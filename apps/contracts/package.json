@@ -7,7 +7,10 @@
     "test": "hardhat test",
     "build": "hardhat compile",
     "deploy": "hardhat deploy --network localhost",
-    "deploy:mumbai": "hardhat deploy --network polygon_mumbai"
+    "deploy:polygon": "hardhat deploy --network polygon",
+    "deploy:mumbai": "hardhat deploy --network polygon_mumbai",
+    "accounts:polygon": "hardhat accounts --network polygon",
+    "accounts:mumbai": "hardhat accounts --network polygon_mumbai"
   },
   "keywords": [],
   "author": "",

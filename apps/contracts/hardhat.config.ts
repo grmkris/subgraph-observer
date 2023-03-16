@@ -34,12 +34,33 @@ const config: HardhatUserConfig = {
       },
       chainId: 137,
     },
+    avalanche: {
+      url: `https://api.avax.network/ext/bc/C/rpc`,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+      chainId: 43114,
+    },
+    optimism: {
+      url: `https://mainnet.optimism.io`,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+      chainId: 10,
+    },
     polygon_mumbai: {
       url: `https://rpc-mumbai.maticvigil.com`,
       accounts: {
         mnemonic: process.env.MNEMONIC,
       },
       chainId: 80001,
+    },
+    polygon_zkevm_testnet: {
+      url: `https://rpc.public.zkevm-test.net`,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+      chainId: 1442,
     },
   },
   namedAccounts: {

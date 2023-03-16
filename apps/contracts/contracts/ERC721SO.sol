@@ -43,4 +43,12 @@ contract ERC721SO is ERC721, Ownable {
         uint256 balance = address(this).balance;
         payable(owner()).transfer(balance);
     }
+
+    function setBaseURI(string memory baseURI) public onlyOwner {
+        _host = baseURI;
+    }
+
+    function getBaseURI() public view returns (string memory) {
+        return _host;
+    }
 }

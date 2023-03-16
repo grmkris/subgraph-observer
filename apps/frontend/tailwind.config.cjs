@@ -12,21 +12,6 @@ module.exports = {
   theme: {},
   // daisyUI config (optional)
   daisyui: {
-    styled: true,
-    themes: [
-      {
-        light: {
-          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
-          primary: "#4338ca",
-          secondary: "#3b82f6",
-        },
-      },
-    ],
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-    prefix: "",
     darkTheme: "light",
   },
 };

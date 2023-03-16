@@ -32,7 +32,10 @@ export const useLinkData = (props: { id: string }) => {
   });
 };
 
-export const useShareDashboard = (props: { content: string }) => {
+export const useShareDashboard = (props: {
+  content: string;
+  onSuccess?: (url: string) => void;
+}) => {
   const { address } = useAccount();
   const message = ethers.utils.keccak256(Buffer.from(props.content));
   const signData = useSignMessage({
@@ -57,11 +60,13 @@ export const useShareDashboard = (props: { content: string }) => {
       });
     },
     onSuccess: (data) => {
-      navigator.clipboard
-        .writeText(`${window.location.href}dashboard/${data.createLink?.id}`)
-        .then(() => {
-          toast.success(`URL copied to clipboard 👏`);
-        });
+      const url = `${window.location.href}dashboard/${data.createLink?.id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        toast.success(`URL copied to clipboard 👏`);
+      });
+      if (props.onSuccess) {
+        props.onSuccess(url);
+      }
     },
   });
 

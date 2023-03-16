@@ -32,7 +32,8 @@
   },
   "preconstruct": {
     "packages": [
-      "packages/subgraph-client"
+      "packages/subgraph-client",
+      "packages/lib/contract-types"
     ]
   },
   "pnpm": {
