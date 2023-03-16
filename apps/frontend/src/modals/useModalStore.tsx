@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalView = "ShareDashboard" | "EditSubgraph";
+export type ModalView = "ShareDashboard" | "EditSubgraph" | "CheckNftsModal";
 export type ModalData = {
   shareData?: {
     title: string;

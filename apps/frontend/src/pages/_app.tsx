@@ -10,28 +10,34 @@ import { Analytics } from "@vercel/analytics/react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { polygonMumbai } from "wagmi/chains";
+import { polygonMumbai, polygon } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { useModalStore } from "../modals/useModalStore";
 import { EditSubgraphFormModal } from "../modals/EditSubgraphFormModal";
 import { ShareDashboardModal } from "../modals/ShareDashboardModal";
 import { shallow } from "zustand/shallow";
+import { env } from "../env/client.mjs";
+import * as http from "http";
+import { CheckNftsModal } from "../modals/CheckNftsModal";
+
+const selectedChains =
+  env.NEXT_PUBLIC_ENV === "production" ? polygon : polygonMumbai;
+const rpc =
+  env.NEXT_PUBLIC_ENV === "production"
+    ? "https://rpc.ankr.com/polygon/042d0fc1c6eacbb798bb9745ba09695ba5cc84c70e5c8a145bd66c78217138c6"
+    : "https://rpc.ankr.com/polygon_mumbai/042d0fc1c6eacbb798bb9745ba09695ba5cc84c70e5c8a145bd66c78217138c6";
 
 const { chains, provider } = configureChains(
-  [polygonMumbai],
+  [selectedChains],
   [
     jsonRpcProvider({
-      rpc: (chainId) => {
-        return {
-          http: "https://rpc.ankr.com/polygon_mumbai/042d0fc1c6eacbb798bb9745ba09695ba5cc84c70e5c8a145bd66c78217138c6",
-        };
-      },
+      rpc: () => ({ http: rpc }),
     }),
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
+  appName: "Subgraph Observer",
   chains,
 });
 
@@ -70,7 +76,12 @@ const ModalsWrapper = () => {
   const closeModal = useModalStore((state) => state.closeModal);
   return (
     <>
-      <div className={"badge-outline badge prose mt-2 hidden"} />
+      <div
+        className={
+          "mask badge-outline badge mask-squircle prose mx-auto mt-2 hidden" +
+          "mask mask-squircle mx-auto cursor-pointer transition-transform duration-200 ease-in-out hover:scale-110"
+        }
+      />
       <div>
         {/* Put this part before </body> tag */}
         <input
@@ -104,6 +115,8 @@ const SelectedModal = () => {
       return <EditSubgraphFormModal />;
     case "ShareDashboard":
       return <ShareDashboardModal />;
+    case "CheckNftsModal":
+      return <CheckNftsModal />;
     default:
       return null;
   }

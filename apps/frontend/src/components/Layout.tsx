@@ -2,6 +2,8 @@ import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { useModalStore } from "../modals/useModalStore";
+import Button from "./common/Button";
 
 function Footer() {
   return (
@@ -12,6 +14,7 @@ function Footer() {
 }
 
 function SocialLinks() {
+  const openNftModal = useModalStore((state) => state.openModal);
   return (
     <div className="flex flex-row space-x-4">
       <Link
@@ -34,6 +37,13 @@ function SocialLinks() {
         <FaGithub size={24} color={""} />
         <p>{"subgraph-observer"}</p>
       </Link>
+      <Button
+        onClick={() => openNftModal("CheckNftsModal")}
+        color={"ghost"}
+        size={"xs"}
+      >
+        Check NFTs
+      </Button>
     </div>
   );
 }

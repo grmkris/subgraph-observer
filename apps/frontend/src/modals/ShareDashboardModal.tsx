@@ -68,7 +68,7 @@ export const ShareDashboardModal = () => {
         ) : (
           <p>
             To share your dashboard, you need to own a subgraph observer NFT.
-            You can mint one by clicking the button below for 10 MATIC.
+            You can mint one by clicking the button below for 1 MATIC.
           </p>
         )}
       </article>
