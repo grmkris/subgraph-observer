@@ -1,0 +1,28 @@
+query Links {
+    Links {
+        docs {
+            id
+            address
+            content
+        }
+        hasNextPage
+        hasPrevPage
+    }
+}
+
+query getLink($id: String!) {
+    Link(id: $id) {
+        id
+        address
+        content
+    }
+}
+
+mutation createLink($address: String!, $content: JSON!, $signature: String) {
+    createLink(data: {address: $address, content: $content, signature: $signature}) {
+        id
+        address
+        content
+        signature
+    }
+}

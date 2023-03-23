@@ -1,0 +1,30 @@
+{
+  "name": "contract-types",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/contract-types.cjs.js",
+  "module": "dist/contract-types.esm.js",
+  "scripts": {
+    "build": "preconstruct build",
+    "copy-package-json-to-dist": "copyfiles package.json dist/",
+    "publish": "pnpm build && pnpm copy-package-json-to-dist && npm publish dist"
+  },
+  "files": [
+    "/dist"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/abi": "^5.7.0"
+  },
+  "peerDependencies": {
+    "ethers": "^5.7.2"
+  }
+}
